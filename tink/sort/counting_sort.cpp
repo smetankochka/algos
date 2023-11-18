@@ -1,21 +1,30 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
 using namespace std;
-int main() {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-    int n, m;
-    cin >> n;
-    vector<int> num(10e8 + 1, 0);
-    for (int i = 0; i < n; i++) {
-        cin >> m;
-        num[10e4 + m]++;
+void countingSort(vector<int>& arr) {
+    const int MAX_VALUE = 10000;
+    const int OFFSET = 10000;
+    vector<int> count(2 * MAX_VALUE + 1, 0);
+    for (int num : arr) {
+        count[num + OFFSET]++;
     }
-    for (int i = 0; i <= 10e8; i++) {
-        for (int j = 0; j < num[i]; j++) {
-            cout << i - 10e4 << " ";
+    int index = 0;
+    for (int i = 0; i < count.size(); i++) {
+        for (int j = 0; j < count[i]; j++) {
+            arr[index++] = i - OFFSET;
         }
     }
+}
+int main() {
+    int n;
+    cin >> n;
+    vector<int> elements(n);
+    for (int i = 0; i < n; i++) {
+        cin >> elements[i];
+    }
+    countingSort(elements);
+    for (int i = 0; i < n; i++) {
+        cout << elements[i] << " ";
+    }
+    return 0;
 }
