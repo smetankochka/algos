@@ -1,49 +1,31 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
-using ll = long long;
+
 int main() {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
     int n, k;
     cin >> n >> k;
-    vector<ll> ps(n);
-    vector<ll> mas(n);
-    cin >> mas[0];
-    ps[0] = mas[0];
-    for (int i = 1; i < k; i++) {
-        cin >> mas[i];
-        ps[i] = mas[i] + ps[i - 1];
+    vector<int> values(n);
+    for (int i = 0; i < n; i++) {
+        cin >> values[i];
     }
-    int l = 0, r = k - 1;
-    ll maxs = ps[k - 1];
-    for (int i = k; i < n; i++) {
-        cin >> mas[i];
-        ps[i] = mas[i] + ps[i - 1] - mas[i - k];
-        if (maxs < ps[i]) {
-            maxs = ps[i];
-            l = i - k + 1;
-            r = i;
-        }
+    vector<int> prefixSum(n + 1, 0);
+    for (int i = 1; i <= n; i++) {
+        prefixSum[i] = prefixSum[i - 1] + values[i - 1];
     }
-    maxs = l > 0 ? ps[0] : 0;
-    for (int i = 1; i < l; i++) {
-        ps[i] = mas[i] + ps[i - 1];
-        if (i >= k) {
-            ps[i] -= mas[i - k];
-        }
-        if (maxs < ps[i]) {maxs = ps[i];}
+    vector<int> pref(n + 1, 0);
+    vector<int> suff(n + 1, 0);
+    for (int i = 1; i <= n - k + 1; i++) {
+        pref[i] = max(pref[i - 1], prefixSum[i + k - 1] - prefixSum[i - 1]);
     }
-    for (int i = r + 1; i < n; i++) {
-        if (i == r + 1) {
-            ps[i] = mas[i];
-        } else if (i <= r + k) {
-            ps[i] = mas[i] + ps[i - 1];
-        } else {
-            ps[i] = mas[i] + ps[i - 1] - mas[i - k];
-        }
-        if (maxs < ps[i]) {maxs = ps[i];}
+    for (int i = n - k; i >= 1; i--) {
+        suff[i] = max(suff[i + 1], prefixSum[i + k] - prefixSum[i]);
     }
-    cout << maxs;
+    int result = 1e9;
+    for (int i = 1; i <= n - k + 1; i++) {
+        result = min(result, max(pref[i - 1], suff[i + k]));
+    }
+    cout << result << endl;
+    return 0;
 }
