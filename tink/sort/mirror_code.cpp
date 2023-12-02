@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <vector>
+#include <algorithm>
 #include <map>
 using namespace std;
 int main() {
@@ -13,16 +13,18 @@ int main() {
     map<char, int> mapa;
     while (n--) {
         cin >> k;
-        if (mapa.contains(k)) {
+        if (mapa.count(k) > 0) {
             mapa[k]++;
         } else {
             mapa[k] = 1;
         }
     }
     string ans = "", mid = "";
-    for (const auto& [letter, count] : products) {
-        for (int i = 0; i < count / 2; i++) {ans.append(letter)}
-        if (mid.size() == 0 && count % 2 == 1) {mid.append(letter);}
+    for (const auto& [letter, count] : mapa) {
+        for (int i = 0; i < count / 2; i++) {ans += letter;}
+        if (mid.size() == 0 && count % 2 == 1) {mid += letter;}
     }
-    cout << ans << " " << mid << "\n";
+    string ansfinish = ans;
+    reverse(ansfinish.begin(), ansfinish.end());
+    cout << ans + mid + ansfinish;
 }
