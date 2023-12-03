@@ -27,4 +27,4 @@ int main() {
             second_queue.pop_front();
         }
     }
-   
+}
