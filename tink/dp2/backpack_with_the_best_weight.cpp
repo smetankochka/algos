@@ -7,23 +7,27 @@
 using namespace std;
 
 int main() {
-    int n, w;
-    cin >> n >> w;
-    vector<int> elem(n);
-    for (int i = 0; i < n; i++) {cin >> elem[i];}
-    vector<vector<bool>> dp(n + 1, vector<bool> (w + 1, false));
-    for (int i = 0; i <= n; i++) {
-        dp[i][0] = true;
+    int N, W;
+    cin >> N >> W;
+    vector<int> wt(N);
+    for (int i = 0; i < N; i++) {
+        cin >> wt[i];
     }
-    for (int i = 1; i <= n; i++) {
-        for (int j = 1; j <= w; j++) {
-            dp[i][j] = dp[i - 1][j] || (j >= elem[i - 1] && dp[i - 1][j - elem[i - 1]]);
+    vector<int> val(N, 1);
+    vector<vector<int>> dp(N + 1, vector<int>(W + 1));
+    for (int i = 0; i <= N; i++) {
+        for (int w = 0; w <= W; w++) {
+            if (i == 0 || w == 0) {
+                dp[i][w] = 0;
+            }
+            else if (wt[i - 1] <= w) {
+                dp[i][w] = max(val[i - 1] + dp[i - 1][w - wt[i - 1]], dp[i - 1][w]);
+            }
+            else {
+                dp[i][w] = dp[i - 1][w];
+            }
         }
     }
-    if (dp[n][w]) {
-        cout << "yes";
-    } else {
-        cout << "no";
-    }
+    cout <<  dp[N][W];
     return 0;
 }
