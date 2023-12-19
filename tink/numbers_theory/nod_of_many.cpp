@@ -1,9 +1,6 @@
 //
 // Created by smetanka on 18.12.23.
 //
-//
-// Created by smetanka on 18.12.23.
-//
 #include <iostream>
 
 using namespace std;
