@@ -1,26 +1,21 @@
 #include <iostream>
-#include <vector>
+
 using namespace std;
-using ll = long long;
-ll countStaircases(int n, vector<vector<ll>>& memo) {
-    if (n <= 1) {
+
+int get_count(int prev_level, int n) {
+    if (0 == n)
         return 1;
+    int count = 0;
+    for (int level = 1; level < prev_level; ++level) {
+        if ((n - level) < 0)
+            break;
+        count += get_count(level, n - level);
     }
-    if (memo[n][n] != -1) {
-        return memo[n][n];
-    }
-    ll ways = 0;
-    for (int i = 1; i <= n; i++) {
-        ways += countStaircases(n - i, memo);
-    }
-    memo[n][n] = ways;
-    return ways;
+    return count;
 }
+
 int main() {
-    int n;
+    int n, count = 0;
     cin >> n;
-    vector<vector<ll>> memo(n + 1, vector<ll>(n + 1, -1));
-    ll result = countStaircases(n, memo);
-    cout << result;
-    return 0;
+    cout << get_count(n + 1, n);
 }
