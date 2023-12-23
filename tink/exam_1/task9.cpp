@@ -1,14 +1,22 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-
 using namespace std;
+
+struct Detail {
+    int cost;
+    int quality;
+};
+
+bool compareCost(const Detail& d1, const Detail& d2) {
+    return d1.cost < d2.cost;
+}
 
 int main() {
     int n, b;
     cin >> n >> b;
 
-    vector<pair<int, int>> details;  // Вектор для хранения деталей
+    vector<Detail> details;
     for (int i = 0; i < n; i++) {
         int k;
         cin >> k;
@@ -19,23 +27,18 @@ int main() {
         }
     }
 
-    // Динамическое программирование для нахождения оптимального решения
-    const int INF = 1e9 + 7;
-    vector<int> dp(b + 1, -INF);
-    dp[0] = 0;  // Базовый случай: 0 качество при 0 бюджете
-    for (int i = 0; i < n; i++) {
-        for (int j = b; j >= 0; j--) {
-            if (j - details[i].first >= 0) {
-                dp[j] = max(dp[j], min(dp[j - details[i].first], details[i].second));
-            }
-        }
+    sort(details.begin(), details.end(), compareCost);
+
+    int maxQuality = -1;
+    int currCost = 0;
+    for (const auto& detail : details) {
+        currCost += detail.cost;
+        if (currCost > b)
+            break;
+        maxQuality = max(maxQuality, detail.quality);
     }
 
-    if (dp[b] > 0) {
-        cout << dp[b] << endl;  // Выводим качество собранного пульта
-    } else {
-        cout << -1 << endl;  // Если не удалось собрать пульт, выводим -1
-    }
+    cout << maxQuality - 1;
 
     return 0;
 }
