@@ -3,13 +3,21 @@
 #include <algorithm>
 using namespace std;
 
-struct point {
+struct segment {
     int start;
     int end;
 };
 
+struct point {
+    int place;
+    bool status;
+};
+
 bool comp(point &a, point &b) {
-    return a.start <= b.start;
+    if (a.place == b.place) {
+        return a.status > b.status;
+    }
+    return a.place < b.place;
 }
 
 int main() {
@@ -18,23 +26,28 @@ int main() {
     cout.tie(0);
     int n;
     cin >> n;
-    vector<point> mas(n);
-    vector<point> ans;
+    vector<point> mas(2 * n);
+    vector<segment> ans;
     for (int i = 0; i < n; i++) {
-        cin >> mas[i].start >> mas[i].end;
+        cin >> mas[i * 2].place >> mas[i * 2 + 1].place;
+        mas[i * 2].status = true;
+        mas[i * 2 + 1].status = false;
     }
     sort(mas.begin(), mas.end(), comp);
-    int ansstart = mas[0].start, ansend = mas[0].end;
-    for (int i = 1; i < n; i++) {
-        if (mas[i].start > ansend) {
-            ans.push_back(point{ansstart, ansend});
-            ansstart = mas[i].start;
-            ansend = mas[i].end;
-        } else if (mas[i].end > ansend) {
-            ansend = mas[i].end;
+    int ansstart = 0, count = 0;
+    for (point p : mas) {
+        if (p.status) {
+            if (count == 0) {
+                ansstart = p.place;
+            }
+            count++;
+        } else {
+            count--;
+            if (count == 0) {
+                ans.push_back({ansstart, p.place});
+            }
         }
     }
-    ans.push_back(point{ansstart, ansend});
     cout << ans.size() << "\n";
     for (auto p : ans) {
         cout << p.start << " " << p.end << "\n";
