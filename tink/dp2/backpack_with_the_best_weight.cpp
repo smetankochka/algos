@@ -13,18 +13,19 @@ int main() {
     for (int i = 0; i < N; i++) {
         cin >> wt[i];
     }
-    vector<int> val(N, 1);
     vector<vector<int>> dp(N + 1, vector<int>(W + 1));
+    for (int i = 0; i <= W; i++) {
+        dp[0][i] = 0;
+    }
     for (int i = 0; i <= N; i++) {
-        for (int w = 0; w <= W; w++) {
-            if (i == 0 || w == 0) {
-                dp[i][w] = 0;
-            }
-            else if (wt[i - 1] <= w) {
-                dp[i][w] = max(val[i - 1] + dp[i - 1][w - wt[i - 1]], dp[i - 1][w]);
-            }
-            else {
-                dp[i][w] = dp[i - 1][w];
+        dp[i][0] = 0;
+    }
+    for (int i = 1; i <= N; i++) {
+        for (int j = 1; j <= W; j++) {
+            if (j < wt[i - 1]) {
+                dp[i][j] = dp[i - 1][j];
+            } else {
+                dp[i][j] = max(dp[i - 1][j - wt[i - 1]] + wt[i - 1], dp[i - 1][j]);
             }
         }
     }
