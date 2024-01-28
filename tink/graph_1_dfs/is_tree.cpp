@@ -16,6 +16,9 @@ void dfs(int v, int parent, vector<bool> &visited, vector<vector<int>> &graph) {
 }
 
 int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
     int n, m, u, v;
     cin >> n >> m;
     vector<bool> visited(n, false);
