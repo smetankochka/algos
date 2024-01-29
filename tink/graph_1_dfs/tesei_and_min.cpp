@@ -6,9 +6,9 @@ void dfs(vector<vector<int>> &graph, vector<bool> &visited, vector<int> &length,
     visited[v] = true;
     length[v] = l;
     l++;
-    for (int i = 0; i < graph[v].size(); i++) {
-        if (!visited[graph[v][i]]) {
-            dfs(graph, visited, length, graph[v][i], l);
+    for (int u : graph[v]) {
+        if (!visited[u]) {
+            dfs(graph, visited, length, u, l);
         }
     }
 }
@@ -37,8 +37,7 @@ int main() {
             maxl = length[i];
             ans.clear();
             ans.push_back(i + 1);
-        }
-        else if (length[i] == maxl) {
+        } else if (length[i] == maxl) {
             ans.push_back(i + 1);
         }
     }
