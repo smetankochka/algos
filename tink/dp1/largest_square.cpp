@@ -1,6 +1,3 @@
-//
-// Created by smetanka on 20.12.23.
-//
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -40,6 +37,9 @@ void findLargestSquare(vector<vector<int>> &matrix) {
 }
 
 int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
     int n, m;
     cin >> n >> m;
     vector<vector<int>> matrix(n, vector<int>(m));
