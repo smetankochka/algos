@@ -33,5 +33,8 @@ int main() {
         output << result[i] << " "; // записываем результат
     }
 
+    input.close();
+    output.close();
+
     return 0;
 }
