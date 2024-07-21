@@ -1,5 +1,5 @@
 //
-// Created by mmura on 19.07.2024.
+// Created by smetanka on 19.07.2024.
 //
 #include <iostream>
 #include <vector>
