@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <algorithm>
 #include <vector>
 
 using namespace std;
@@ -13,7 +14,8 @@ int main() {
     int k;
     cin >> com >> rule >> k;
 
-    int uniq = 0, need = rule.size(), ansr = -1, n = com.size(), cur_len = 0;
+    int uniq = 0, need = rule.size(), n = com.size(), cur_len = 0;
+    int ansr = n;
 
     vector<bool> rules(26, false);
     for (char c : rule) {
@@ -23,6 +25,13 @@ int main() {
     vector<int> counter(26, 0);
 
     for (int i = n - 1; i >= 0; i--) {
+        if (!rules[com[i] - 'a']) {
+            uniq = 0;
+            ansr = i;
+            fill(counter.begin(), counter.end(), 0);
+            cur_len = 0;
+            continue;
+        }
         if (cur_len == k) {
             counter[com[i + cur_len] - 'a']--;
             if (rules[com[i + cur_len] - 'a'] && counter[com[i + cur_len] - 'a'] == 0) {
@@ -31,18 +40,18 @@ int main() {
             cur_len--;
         }
         cur_len++;
-        if (rules[com[i] - 'a'] && counter[com[i] - 'a'] == 0) {
+        if (counter[com[i] - 'a'] == 0) {
             uniq++;
         }
         counter[com[i] - 'a']++;
         if (uniq == need) {
-            for (int j = 0; j < cur_len; j++) {
-                cout << com[i + j];
+            for (int j = i; j < ansr; j++) {
+                cout << com[j];
             }
             return 0;
         }
     }
 
-    cout << ansr;
+    cout << -1;
     return 0;
 }
