@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/smetanka/Документы/algos/olympiads",
-      "program": "/home/smetanka/Документы/algos/olympiads/build/Debug/outDebug",
+      "cwd": "/home/smetanka/algos/24-25/tink/dfs",
+      "program": "/home/smetanka/algos/24-25/tink/dfs/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
