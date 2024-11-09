@@ -7,6 +7,7 @@ int main() {
 
     int n, cur;
     int maximum = -1e9;
+    cin >> n;
     while (n--) {
         cin >> cur;
         if (cur > maximum) {
